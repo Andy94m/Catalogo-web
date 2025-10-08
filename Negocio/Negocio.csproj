@@ -50,5 +50,9 @@
     <Compile Include="Seguridad.cs" />
     <Compile Include="UserNegocio.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script_DB\script.txt" />
+    <Content Include="Script_DB\SQLQuery1.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

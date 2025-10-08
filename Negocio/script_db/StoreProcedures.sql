@@ -1,0 +1,50 @@
+--Stored Procedures
+--SELECT  A.Id, Codigo, Nombre, 
+--A.Descripcion, M.Descripcion DescMarca, 
+--C.Descripcion DescCategoria,
+--ImagenUrl, 
+--A.IdMarca, 
+--A.IdCategoria, 
+--Precio 
+--from ARTICULOS A, MARCAS M, CATEGORIAS C 
+--where A.IdMarca = M.Id 
+--and  A.IdCategoria= C.ID 
+--and Nombre is not null 
+--and Codigo NOT LIKE '#%'
+--GO
+
+--CREATE PROCEDURE storedAltaArticulo
+--@Codigo varchar(10)
+--@Nombre varchar(100),
+--@Descripcion varchar(100),
+--@IdMarca int,
+--@IdCategoria int,
+--@ImagenUrl varchar(300),
+--@Precio smallmoney
+--as
+--insert into ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) 
+--values (@Codigo, @Nombre, @Descripcion, @IdMarca, @IdCategoria, @ImagenUrl, @Precio)
+--GO
+
+--create procedure storedModificar
+--@Id int,
+--@Codigo varchar(10),
+--@Nombre varchar(100),
+--@Descripcion varchar(100),
+--@IdMarca int,
+--@IdCategoria int,
+--@ImagenUrl varchar(300),
+--@Precio smallmoney
+--as
+--update ARTICULOS 
+--set 
+--Codigo = @Codigo,
+--Nombre = @Nombre,
+--Descripcion = @Descripcion,
+--IdMarca = @IdMarca,
+--IdCategoria = @IdCategoria,
+--ImagenUrl = @ImagenUrl, 
+--Precio = @Precio 
+--where Id = @Id
+--GO
+
