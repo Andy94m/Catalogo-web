@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using Dominio;
+using System.Diagnostics;
 
 namespace Negocio
 {
@@ -25,7 +26,8 @@ namespace Negocio
 
             try
             {
-                conexion.ConnectionString = ConfigurationManager.AppSettings["cadenaConexion"];
+                //conexion.ConnectionString = ConfigurationManager.AppSettings["cadenaConexion"];
+                //conexion.ConnectionString = "server=.; database=POKEDEX_DB; integrated security=true";
                 comando.CommandType = System.Data.CommandType.Text;
                 comando.CommandText = "select A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion DescMarca, C.Descripcion DescCategoria, ImagenUrl, A.IdMarca, A.IdCategoria, Precio from ARTICULOS A, MARCAS M, CATEGORIAS C where A.IdMarca = M.Id and  A.IdCategoria= C.ID and Nombre is not null and Codigo NOT LIKE '#%'";
                 //datos.setearConsulta("select A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion DescMarca, C.Descripcion DescCategoria, ImagenUrl, A.IdMarca, A.IdCategoria, Precio from ARTICULOS A, MARCAS M, CATEGORIAS C where A.IdMarca = M.Id and  A.IdCategoria= C.ID and Nombre is not null and Codigo NOT LIKE '#%'");
@@ -79,6 +81,12 @@ namespace Negocio
         {
             List<Articulo> lista = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
+
+            if(datos != null)
+                Debug.WriteLine("AccesoDatos no es nulo");
+            else
+                Debug.WriteLine("AccesoDatos es nulo");
+
             try
             {
                 datos.setearProcedimiento("storedListar");
@@ -89,9 +97,12 @@ namespace Negocio
                     Articulo aux = new Articulo();
                     aux.Id = (int)datos.Lector["Id"];
                     aux.Cod = (string)datos.Lector["Codigo"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.UrlImagen = (string)datos.Lector["ImagenUrl"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
+
+                    Debug.WriteLine(aux.Cod.ToString());
 
                     if (!(datos.Lector["ImagenUrl"] is DBNull))
                         aux.UrlImagen = (string)datos.Lector["ImagenUrl"];
@@ -111,7 +122,9 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-                throw ex;
+                //Debug.WriteLine("Error: " + ex.Message);
+                //Debug.WriteLine("StackTrace: " + ex.StackTrace);
+                throw;
             }
             finally
             {

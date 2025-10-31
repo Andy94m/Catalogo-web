@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+
 
 namespace Negocio
 {
@@ -23,8 +26,10 @@ namespace Negocio
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection(ConfigurationManager.AppSettings["cadenaConexion"]);
+            //conexion = new SqlConnection(ConfigurationManager.AppSettings["cadenaConexion"]);
+            conexion = new SqlConnection(ConfigurationManager.ConnectionStrings["cadenaConexion"].ConnectionString);
             comando = new SqlCommand();
+            
         }
 
         //setea el tipo de comando y se pasa por parametro el string
@@ -50,6 +55,7 @@ namespace Negocio
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("Error en ejecutarLectura: " + conexion.ToString());
                 throw ex;
             }
         }

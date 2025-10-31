@@ -37,7 +37,8 @@
                     <asp:TextBox runat="server" CssClass="form-control" ID="txtPasswordLogin" TextMode="Password" />
                 </div>
                 <div class="d-flex justify-content-center gap-2 mt-3">
-                    <asp:Button Text="Ingresar" CssClass="btn btn-outline-success" ID="btnLogin" runat="server" />
+                    <asp:Button Text="Ingresar" CssClass="btn btn-outline-success" ID="btnLogin" OnClick="btnLogin_Click" runat="server" />
+                    
                     <a class="btn btn-outline-danger" href="/">Volver</a>
                 </div>
 

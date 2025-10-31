@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Configuration.Install;
+//using System.Configuration.Install;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using Dominio;
 
 namespace Negocio
 {
-    internal class UserNegocio
+    public class UserNegocio
     {
         //id, email, pass, nombre, apellido, urlimagenperfil, admin
 

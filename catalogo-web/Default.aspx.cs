@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Dominio;
-using Negocio;
 
 namespace catalogo_web
 {
@@ -24,10 +26,6 @@ namespace catalogo_web
                 repRepetidor.DataBind();
             }
         }
-
-
-
-        
 
     }
 }
