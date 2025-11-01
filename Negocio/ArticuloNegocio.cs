@@ -102,7 +102,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.Lector["ImagenUrl"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
 
-                    Debug.WriteLine(aux.Cod.ToString());
+                    //Debug.WriteLine(aux.Cod.ToString());
 
                     if (!(datos.Lector["ImagenUrl"] is DBNull))
                         aux.UrlImagen = (string)datos.Lector["ImagenUrl"];

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
+
 //using System.Configuration.Install;
 using System.Linq;
 using System.Text;
@@ -62,14 +64,16 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("Select id, email, pass, admin, UrlImagenPerfil, nombre, apellido, from USERS WHERE email = @email AND pass = @pass");
-                datos.setearParametro("@email", user.Email);
-                datos.setearParametro("@pass", user.Pass);
+                datos.setearProcedimiento("spValidarUsuario");
+                datos.setearParametro("@Email", user.Email);
+                datos.setearParametro("@Password", user.Pass);
                 datos.ejecutarLectura();
+                
                 if (datos.Lector.Read())
                 {
                     user.Id = (int)datos.Lector["Id"];
                     user.Admin = (bool)datos.Lector["Admin"];
+                    
                     if (!(datos.Lector["UrlImagenPerfil"] is DBNull))
                         user.UrlImagenPerfil = (string)datos.Lector["UrlImagenPerfil"];
                     if (!(datos.Lector["Nombre"] is DBNull))
@@ -79,7 +83,9 @@ namespace Negocio
                     if (!(datos.Lector["Email"] is DBNull))
                         user.Email = (string)datos.Lector["Email"];
 
+                    Debug.WriteLine(user.Nombre);
                     return true;
+
                 }
                 return false;
             }
