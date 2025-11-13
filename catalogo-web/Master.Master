@@ -7,16 +7,28 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
     <link href="Content/estilos-catalogo.css" rel="stylesheet" />
 
     <asp:ContentPlaceHolder ID="head" runat="server" />
+
+    <script>
+    function mostrarAlerta(mensaje, tipo = "success") {
+        const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = `
+            <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+                ${mensaje}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
+        alertPlaceholder.innerHTML = "";
+        alertPlaceholder.append(wrapper);
+    }
+    </script>
 </head>
 <body>
     <!-- Navbar principal -->
     <nav class="navbar bg-body-tertiary fixed-top">
         <div class="container-fluid d-flex align-items-center justify-content-between">
-
             <!-- Sección izquierda -->
             <div class="d-flex align-items-center gap-3">
                 <a class="navbar-brand" href="Default.aspx">Catálogo Web</a>
@@ -26,69 +38,68 @@
 
             <!-- Sección derecha -->
             <div class="d-flex align-items-center gap-3">
-                <!-- Íconos de tema -->
                 <i class="fa-solid fa-sun fa-2x text-warning" role="button"></i>
                 <i class="fa-solid fa-moon fa-2x" role="button"></i>
 
-                <!-- Usuario / Login -->
                 <% if (UsuarioLogeado)
                     { %>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <i class="fa-solid fa-user-circle fa-2x"></i>
                 </button>
                 <% }
-                else
-                { %>
+                    else
+                    { %>
                 <a class="navbar-brand" href="Login.aspx">Login</a>
                 <% } %>
             </div>
         </div>
     </nav>
 
-    <!-- Offcanvas lateral -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-            <h3 class="offcanvas-title" id="offcanvasNavbarLabel">Hola Juancito!</h3>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
-        </div>
-        <div class="offcanvas-body">
-            <h4 class="mb-3">Mis datos:</h4>
-
-            <div class="mb-2 d-flex align-items-center">
-                <label class="form-label me-2 mb-0">Nombre:</label>
-                <asp:Label ID="lblNombre" runat="server" CssClass="fw-bold" />
-            </div>
-
-            <div class="mb-2 d-flex align-items-center">
-                <label class="form-label me-2 mb-0">Apellido:</label>
-                <asp:Label ID="lblApellido" runat="server" CssClass="fw-bold" />
-            </div>
-
-            <div class="mb-2 d-flex align-items-center">
-                <label class="form-label me-2 mb-0">Email:</label>
-                <asp:Label ID="lblEmail" runat="server" CssClass="fw-bold" />
-            </div>
-
-            <form class="d-flex mt-3" role="search">
-                <a href="MiPerfil.aspx" class="btn btn-outline-primary">Ir a Mi Perfil</a>
-            </form>
-            <hr />
-            <div><a href="MiPerfil.aspx" class="btn btn-outline-danger">Salir</a></div>
-        </div>
-    </div>
-
-    <!-- Contenido principal -->
+    <!-- Formulario principal -->
     <form id="form1" runat="server">
         <asp:HiddenField ID="hfTheme" runat="server" />
 
+        <!-- Offcanvas lateral (ahora dentro del form) -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h3 class="offcanvas-title" id="offcanvasNavbarLabel">Bienvenid@!</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+            </div>
+            <div class="offcanvas-body">
+                <h4 class="mb-3">Mis datos:</h4>
+
+                <div class="mb-2 d-flex align-items-center">
+                    <label class="form-label me-2 mb-0">Nombre:</label>
+                    <asp:Label ID="lblNombre" runat="server" CssClass="fw-bold" />
+                </div>
+
+                <div class="mb-2 d-flex align-items-center">
+                    <label class="form-label me-2 mb-0">Apellido:</label>
+                    <asp:Label ID="lblApellido" runat="server" CssClass="fw-bold" />
+                </div>
+
+                <div class="mb-2 d-flex align-items-center">
+                    <label class="form-label me-2 mb-0">Email:</label>
+                    <asp:Label ID="lblEmail" runat="server" CssClass="fw-bold" />
+                </div>
+
+                <div class="d-flex mt-3">
+                    <a href="MiPerfil.aspx" class="btn btn-outline-primary">Ir a Mi Perfil</a>
+                </div>
+                <hr />
+                <asp:LinkButton ID="btnSalir" runat="server" CssClass="btn btn-outline-danger" OnClick="btnSalir_Click">Salir</asp:LinkButton>
+                <div id="liveAlertPlaceholder" class="position-fixed top-0 end-0 p-3" style="z-index: 1055;"></div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
         <div class="container py-5 mt-5">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
         </div>
     </form>
 
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <%-- Temas --%>
     <script src="Content/Acciones.js"></script>
 </body>
 </html>

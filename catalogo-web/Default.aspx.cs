@@ -44,9 +44,9 @@ namespace catalogo_web
                 ViewState["IdArticulo"] = id;
                 aux = negocio.buscarId(id);
 
-                Debug.WriteLine("ID del artículo seleccionado: " + id);
-                Debug.WriteLine("Nombre: " + aux.Nombre);
-                Debug.WriteLine("Marca: " + aux.Tipo.Descripcion);
+                //Debug.WriteLine("ID del artículo seleccionado: " + id);
+                //Debug.WriteLine("Nombre: " + aux.Nombre);
+                //Debug.WriteLine("Marca: " + aux.Tipo.Descripcion);
 
                 txtNombre.Text = aux.Nombre;
                 txtCodigo.Text = aux.Cod;
@@ -83,7 +83,8 @@ namespace catalogo_web
                 Articulo actualizado = new Articulo();
 
                 actualizado.Id = (int)ViewState["IdArticulo"];
-                Debug.WriteLine("Id del modal: " + actualizado.Id);
+
+                //Debug.WriteLine("Id del modal: " + actualizado.Id);
                 actualizado.Nombre = txtNombre.Text;
                 actualizado.Cod = txtCodigo.Text;
                 actualizado.Descripcion = txtDescripcion.Text;

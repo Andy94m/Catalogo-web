@@ -186,6 +186,23 @@ h1,
         opacity: 1;
     }
 
-    /*.offcanvas-center .btn-warning {
-        width: 100%;
-    }*/
+.validacion {
+    color: red;
+    font-size: 0.8rem;
+}
+
+.perfil-card {
+    background-color: #1f1f1f;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    color: #fff;
+}
+
+.perfil-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #6c757d;
+}

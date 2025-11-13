@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Content/estilos-default.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -84,7 +83,7 @@
     <!-- Modal -->
     <div class="modal fade" id="modalDetalle" runat="server" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content bg-body text-body">
                 <%--<div class="modal-header">
                     <h5 class="modal-title" id="modalDetalleLabel">Detalle del artículo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -129,7 +128,7 @@
 
                         <div class="col-md-5 text-center">
                             <label class="form-label">Imagen del artículo</label>
-                            <asp:TextBox ID="txtUrlImagen" runat="server" CssClass="form-control mb-3" placeholder="Pegá el link de la imagen" />
+                            <asp:TextBox ID="txtUrlImagen" runat="server" CssClass="form-control mb-3"/>
 
                             <asp:Image ID="imgNuevoPerfil" runat="server"
                                 ImageUrl="https://www.palomacornejo.com/wp-content/uploads/2021/08/no-image.jpg"

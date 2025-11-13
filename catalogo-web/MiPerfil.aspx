@@ -1,28 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="MiPerfil.aspx.cs" Inherits="catalogo_web.MiPerfil" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
-        .validacion {
-            color: red;
-            font-size: 0.8rem;
-        }
-
-        .perfil-card {
-            background-color: #1f1f1f;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            color: #fff;
-        }
-
-        .perfil-img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 3px solid #6c757d;
-        }
-    </style>
+    <link href="Content/Estilos-Default.css" rel="stylesheet" />
+    <%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>--%>
 
     <script>
         function validar() {
@@ -48,9 +28,21 @@
                 txtApellido.classList.remove("is-invalid");
                 txtApellido.classList.add("is-valid");
             }
-
             return valido;
         }
+
+        function mostrarAlerta(mensaje, tipo = "success") {
+            const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = `
+            <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+                ${mensaje}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
+            alertPlaceholder.innerHTML = ""; // Limpia alertas anteriores
+            alertPlaceholder.append(wrapper);
+        }
+
     </script>
 </asp:Content>
 
@@ -78,8 +70,9 @@
 
                     <!-- Imagen de perfil -->
                     <div class="col-md-5 text-center">
-                        <label class="form-label">Imagen de Perfil</label>
-                        <input type="file" id="txtImagen" runat="server" class="form-control mb-3" />
+                        <label class="form-label">URL Imagen:</label>
+                        <asp:TextBox ID="txtUrlImagenPerfil" runat="server" CssClass="form-control mb-3" />
+                        <%--<input type="file" id="txtImagen" runat="server" class="form-control mb-3" />--%>
                         <asp:Image ID="imgNuevoPerfil" ImageUrl="https://www.palomacornejo.com/wp-content/uploads/2021/08/no-image.jpg"
                             runat="server" CssClass="perfil-img mb-3" />
                     </div>
@@ -87,7 +80,8 @@
 
                 <!-- Botones -->
                 <div class="text-center mt-4">
-                    <%--<asp:Button Text="Guardar" CssClass="btn btn-outline-primary me-2" OnClientClick="return validar()" OnClick="btnGuardar_Click" ID="btnGuardar" runat="server" />--%>
+                    <div id="liveAlertPlaceholder"></div>
+                    <asp:Button Text="Guardar" CssClass="btn btn-outline-primary me-2" OnClientClick="return validar()" OnClick="btnGuardar_Click" ID="btnGuardar" runat="server" />
                     <a href="/" class="btn btn-outline-secondary">Regresar</a>
                 </div>
             </div>
