@@ -15,32 +15,29 @@
                 <div class="filtros p-3 rounded">
                     <h5>Filtros</h5>
                     <hr />
-                    <p>Opciones de filtrado irán aquí</p>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="chkSamsung" />
-                        <label class="form-check-label" for="chkSamsung">Samsung</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="chkApple" />
-                        <label class="form-check-label" for="chkApple">Apple</label>
-                    </div>
+                    <h6 class="mt-4">Marcas:</h6>
+                    <asp:PlaceHolder ID="phMarcas" runat="server" />
+                    <hr />
+                    <h6 class="mt-4">Tipos:</h6>
+                    <asp:PlaceHolder ID="phTipos" runat="server" />
                     <div class="mt-4 text-end">
-                        <asp:Button ID="btnAplicarFiltros" runat="server" CssClass="btn btn-primary" Text="Aplicar" />
+                        <asp:Button ID="btnLimpiarFiltros" runat="server" CssClass="btn btn-outline-secondary" Text="Limpiar" OnClick="btnLimpiarFiltros_Click" />
+                        <asp:Button ID="btnAplicarFiltros" runat="server" CssClass="btn btn-primary" Text="Aplicar" OnClick="btnAplicarFiltros_Click" />
                     </div>
                 </div>
             </div>
-
             <!-- 🧩 Columna principal con ordenamiento y productos -->
             <div class="col-md-9">
                 <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <div class="input-group" style="max-width: 400px;">
                         <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control" placeholder="Buscar productos..." />
-                        <asp:Button ID="Button1" runat="server" CssClass="btn btn-outline-secondary" Text="🔍" />
+                        <asp:Button ID="Button1" runat="server" CssClass="btn btn-outline-secondary" Text="🔍" OnClick="btnBuscar_Click" />
                     </div>
 
                     <div class="d-flex align-items-center">
                         <label for="ddlOrden" class="form-label me-2 mb-0">Ordenar por:</label>
-                        <asp:DropDownList ID="ddlOrden" runat="server" CssClass="form-select w-auto">
+                        <asp:DropDownList ID="ddlOrden" runat="server" CssClass="form-select w-auto"
+                            AutoPostBack="true" OnSelectedIndexChanged="ddlOrden_SelectedIndexChanged">
                             <asp:ListItem Text="Precio: mayor a menor" Value="desc" />
                             <asp:ListItem Text="Precio: menor a mayor" Value="asc" />
                         </asp:DropDownList>
@@ -128,7 +125,7 @@
 
                         <div class="col-md-5 text-center">
                             <label class="form-label">Imagen del artículo</label>
-                            <asp:TextBox ID="txtUrlImagen" runat="server" CssClass="form-control mb-3"/>
+                            <asp:TextBox ID="txtUrlImagen" runat="server" CssClass="form-control mb-3" />
 
                             <asp:Image ID="imgNuevoPerfil" runat="server"
                                 ImageUrl="https://www.palomacornejo.com/wp-content/uploads/2021/08/no-image.jpg"

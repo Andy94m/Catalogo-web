@@ -11,19 +11,6 @@
 
     <asp:ContentPlaceHolder ID="head" runat="server" />
 
-    <script>
-    function mostrarAlerta(mensaje, tipo = "success") {
-        const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = `
-            <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-                ${mensaje}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>`;
-        alertPlaceholder.innerHTML = "";
-        alertPlaceholder.append(wrapper);
-    }
-    </script>
 </head>
 <body>
     <!-- Navbar principal -->
@@ -32,7 +19,12 @@
             <!-- Sección izquierda -->
             <div class="d-flex align-items-center gap-3">
                 <a class="navbar-brand" href="Default.aspx">Catálogo Web</a>
+
+                <% if (EsAdmin)
+                    { %>
                 <a class="navbar-brand" href="ListadoArt.aspx">Artículos</a>
+                <% } %>
+
                 <a class="navbar-brand" href="Favoritos.aspx">Favoritos</a>
             </div>
 

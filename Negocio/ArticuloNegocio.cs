@@ -417,5 +417,102 @@ namespace Negocio
                 throw ex;
             }
         }
+
+        public List<Articulo> filtrarPorMarcasYTipos(List<int> idsMarcas, List<int> idsTipos)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                List<string> condiciones = new List<string>();
+
+                if (idsMarcas.Count > 0)
+                {
+                    string marcas = string.Join(",", idsMarcas.Select((id, i) => "@m" + i));
+                    condiciones.Add("A.IdMarca IN (" + marcas + ")");
+                }
+
+                if (idsTipos.Count > 0)
+                {
+                    string tipos = string.Join(",", idsTipos.Select((id, i) => "@t" + i));
+                    condiciones.Add("A.IdCategoria IN (" + tipos + ")");
+                }
+
+                string where = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
+
+                string consulta = $@"
+            SELECT A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion DescMarca, C.Descripcion DescCategoria,
+                   ImagenUrl, A.IdMarca, A.IdCategoria, Precio
+            FROM ARTICULOS A
+            INNER JOIN MARCAS M ON A.IdMarca = M.Id
+            INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id
+            {where}
+              AND Nombre IS NOT NULL
+              AND Codigo IS NOT NULL
+              AND Codigo NOT LIKE '#%'";
+
+                datos.setearConsulta(consulta);
+
+                for (int i = 0; i < idsMarcas.Count; i++)
+                    datos.setearParametro("@m" + i, idsMarcas[i]);
+
+                for (int i = 0; i < idsTipos.Count; i++)
+                    datos.setearParametro("@t" + i, idsTipos[i]);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                    lista.Add(auxFila(datos.Lector));
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<Articulo> buscarPorNombre(string nombre)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = @"
+            SELECT A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion DescMarca, C.Descripcion DescCategoria,
+                   ImagenUrl, A.IdMarca, A.IdCategoria, Precio
+            FROM ARTICULOS A
+            INNER JOIN MARCAS M ON A.IdMarca = M.Id
+            INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id
+            WHERE LOWER(A.Nombre) LIKE LOWER(@nombre)
+              AND A.Nombre IS NOT NULL
+              AND A.Codigo IS NOT NULL
+              AND A.Codigo NOT LIKE '#%'";
+
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@nombre", "%" + nombre.ToLower() + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                    lista.Add(auxFila(datos.Lector));
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
