@@ -16,67 +16,6 @@ namespace Negocio
     public class ArticuloNegocio
     {
 
-        public List<Articulo> listar(string id = "")
-        {
-            List<Articulo> lista = new List<Articulo>();
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-            SqlDataReader lector;
-            //AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                //conexion.ConnectionString = ConfigurationManager.AppSettings["cadenaConexion"];
-                //conexion.ConnectionString = "server=.; database=POKEDEX_DB; integrated security=true";
-                comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "select A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion DescMarca, C.Descripcion DescCategoria, ImagenUrl, A.IdMarca, A.IdCategoria, Precio from ARTICULOS A, MARCAS M, CATEGORIAS C where A.IdMarca = M.Id and  A.IdCategoria= C.ID and Nombre is not null and Codigo NOT LIKE '#%'";
-                //datos.setearConsulta("select A.Id, Codigo, Nombre, A.Descripcion, M.Descripcion DescMarca, C.Descripcion DescCategoria, ImagenUrl, A.IdMarca, A.IdCategoria, Precio from ARTICULOS A, MARCAS M, CATEGORIAS C where A.IdMarca = M.Id and  A.IdCategoria= C.ID and Nombre is not null and Codigo NOT LIKE '#%'");
-                //datos.ejecutarLectura();
-                //while (datos.Lector.Read())
-                //    lista.Add(auxFila(datos.Lector));
-
-                //return lista;
-
-                if (id != "")
-                    comando.CommandText += " and A.Id = " + id;
-
-                comando.Connection = conexion;
-
-                conexion.Open();
-                lector = comando.ExecuteReader();
-
-                while (lector.Read())
-                {
-                    Articulo aux = new Articulo();
-                    aux.Id = (int)lector["Id"];
-                    aux.Cod = (string)lector["Codigo"];
-                    aux.Descripcion = (string)lector["Descripcion"];
-                    aux.UrlImagen = (string)lector["ImagenUrl"];
-                    aux.Precio = (decimal)lector["Precio"];
-
-                    if (!(lector["ImagenUrl"] is DBNull))
-                        aux.UrlImagen = (string)lector["ImagenUrl"];
-
-                    aux.Compania = new Marcas();
-                    aux.Compania.Id = (int)lector["IdMarca"];
-                    aux.Compania.Descripcion = (string)lector["DescMarca"];
-
-                    aux.Tipo = new Categorias();
-                    aux.Tipo.Id = (int)lector["IdCategoria"];
-                    aux.Tipo.Descripcion = (string)lector["DescCategoria"];
-
-                    lista.Add(aux);
-                }
-                conexion.Close();
-                return lista;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public List<Articulo> listarConSP()
         {
             List<Articulo> lista = new List<Articulo>();
@@ -184,34 +123,6 @@ namespace Negocio
             }
         }
 
-        public void agregar(Articulo artic)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearConsulta("insert into ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) values (@Codigo, @Nombre, @Descripcion, @IdMarca, @IdCategoria, @ImagenUrl, @Precio)");
-                datos.setearParametro("@Codigo", artic.Cod);
-                datos.setearParametro("@Nombre", artic.Nombre);
-                datos.setearParametro("@Descripcion", artic.Descripcion);
-                datos.setearParametro("@IdMarca", artic.Compania.Id);
-                datos.setearParametro("@IdCategoria", artic.Tipo.Id);
-                datos.setearParametro("@ImagenUrl", artic.UrlImagen);
-                datos.setearParametro("@Precio", artic.Precio);
-
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-                Console.WriteLine($"Consulta generada: insert into DISCOS (Titulo, FechaLanzamiento, CantidadCanciones) values ('{artic.Nombre}', '{artic.Cod}', {artic.Descripcion})");
-            }
-        }
-
         public void agregarConSP(Articulo artic)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -238,33 +149,6 @@ namespace Negocio
             }
         }
 
-        public void modificar(Articulo artic)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.setearConsulta("update ARTICULOS set Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, IdMarca = @IdMarca, IdCategoria = @IdCategoria, ImagenUrl = @ImagenUrl, Precio = @Precio where Id = @Id");
-                datos.setearParametro("@Id", artic.Id);
-                datos.setearParametro("@Codigo", artic.Cod);
-                datos.setearParametro("@Nombre", artic.Nombre);
-                datos.setearParametro("@Descripcion", artic.Descripcion);
-                datos.setearParametro("@IdMarca", artic.Compania.Id);
-                datos.setearParametro("@IdCategoria", artic.Tipo.Id);
-                datos.setearParametro("@ImagenUrl", artic.UrlImagen);
-                datos.setearParametro("@Precio", artic.Precio);
-
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-
-        }
 
         public void modificarConSP(Articulo artic)
         {
@@ -277,6 +161,9 @@ namespace Negocio
                 datos.setearParametro("@Nombre", artic.Nombre);
                 datos.setearParametro("@Descripcion", artic.Descripcion);
                 Debug.WriteLine("IdMarca en modificarConSP: " + artic.Compania.Id);
+                Debug.WriteLine("IdMarca: " + artic.Compania.Id);
+                Debug.WriteLine("IdCategoria: " + artic.Tipo.Id);
+
                 datos.setearParametro("@IdMarca", artic.Compania.Id);
                 datos.setearParametro("@IdCategoria", artic.Tipo.Id);
                 datos.setearParametro("@ImagenUrl", artic.UrlImagen);
@@ -290,22 +177,6 @@ namespace Negocio
             finally
             {
                 datos.cerrarConexion();
-            }
-        }
-
-        public void eliminarFisico(int id)
-        {
-            try
-            {
-                AccesoDatos datos = new AccesoDatos();
-                datos.setearConsulta("DELETE from ARTICULOS where Id = @Id");
-                datos.setearParametro("@Id", id);
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
             }
         }
 

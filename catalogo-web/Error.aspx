@@ -3,4 +3,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h1>ERRORRRR, VOLVÉ PÁ</h1>
+    <hr />
+    <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger" />
 </asp:Content>
